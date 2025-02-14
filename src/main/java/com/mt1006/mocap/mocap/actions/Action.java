@@ -50,7 +50,8 @@ public interface Action
 		ENTITY_ACTION(17, EntityAction::new),
 		HURT(18, Hurt::new),
 		VEHICLE_DATA(19, VehicleData::new, VehicleData::new),
-		BREAK_BLOCK_PROGRESS(20, BreakBlockProgress::new);
+		BREAK_BLOCK_PROGRESS(20, BreakBlockProgress::new),
+		SET_SCALE_DATA(21, SetScaleData::new, SetScaleData::new);
 
 		public final byte id;
 		public final Function<RecordingFiles.Reader, Action> fromReader;

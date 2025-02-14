@@ -7,7 +7,7 @@ import com.mt1006.mocap.network.MocapPackets;
 import com.mt1006.mocap.utils.Fields;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
+//import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents; //Replace LivingEntityDamageMixin
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents;
 import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
@@ -20,11 +20,13 @@ import org.apache.logging.log4j.Logger;
 public class MocapMod implements ModInitializer
 {
 	public static final String MOD_ID = "mocap";
-	public static final String VERSION = "1.3.9";
-	public static final String FOR_VERSION = "1.19.2";
+	public static final String VERSION = "1.3.9x-0.0.5";
+	public static final String FOR_VERSION = "1.19";
 	public static final String FOR_LOADER = "Fabric";
 	public static final Logger LOGGER = LogManager.getLogger();
 	public static final boolean isDedicatedServer = FabricLoader.getInstance().getEnvironmentType() == EnvType.SERVER;
+
+	public static final boolean IS_PEHKUI_LOADED = FabricLoader.getInstance().isModLoaded("pehkui");
 
 	@Override public void onInitialize()
 	{
@@ -35,12 +37,18 @@ public class MocapMod implements ModInitializer
 		UseBlockCallback.EVENT.register(BlockInteractionEvent::onRightClickBlock);
 		ServerPlayConnectionEvents.JOIN.register(PlayerConnectionEvent::onPlayerJoin);
 		ServerPlayConnectionEvents.DISCONNECT.register(PlayerConnectionEvent::onPlayerLeave);
-		ServerLivingEntityEvents.ALLOW_DAMAGE.register(EntityEvent::onEntityHurt);
+		//ServerLivingEntityEvents.ALLOW_DAMAGE.register(EntityEvent::onEntityHurt); //Replace LivingEntityDamageMixin
 
 		RegisterCommand.registerCommands();
 		Fields.init();
 		MocapPackets.register();
 		Action.init();
+
+		if (IS_PEHKUI_LOADED) {
+			System.out.println("Pehkui is installed!");
+		} else {
+			System.out.println("Pehkui is not installed.");
+		}
 	}
 
 	public static String getName()

@@ -2,9 +2,9 @@ package com.mt1006.mocap.utils;
 
 import com.mojang.authlib.GameProfile;
 import net.minecraft.network.Connection;
-import net.minecraft.network.PacketSendListener;
+//import net.minecraft.network.PacketSendListener; //Just going to hide this and see what happens
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.PlayerChatMessage;
+//import net.minecraft.network.chat.PlayerChatMessage;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.PacketFlow;
 import net.minecraft.network.protocol.game.*;
@@ -16,7 +16,7 @@ import net.minecraft.stats.Stat;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+//import org.jetbrains.annotations.Nullable;
 
 import java.util.Set;
 
@@ -79,7 +79,7 @@ public class FakePlayer extends ServerPlayer
 		@Override public void handlePaddleBoat(ServerboundPaddleBoatPacket packet) { }
 		@Override public void onDisconnect(Component message) { }
 		@Override public void send(Packet<?> packet) { }
-		@Override public void send(Packet<?> packet, @Nullable PacketSendListener sendListener) { }
+		//@Override public void send(Packet<?> packet, @Nullable PacketSendListener sendListener) { } //Just going to hide this and see what happens
 		@Override public void handleSetCarriedItem(ServerboundSetCarriedItemPacket packet) { }
 		@Override public void handleChat(ServerboundChatPacket packet) { }
 		@Override public void handleAnimate(ServerboundSwingPacket packet) { }
@@ -102,7 +102,7 @@ public class FakePlayer extends ServerPlayer
 		@Override public void teleport(double x, double y, double z, float yaw, float pitch, Set<ClientboundPlayerPositionPacket.RelativeArgument> relativeSet, boolean dismountVehicle) { }
 		@Override public void ackBlockChangesUpTo(int sequence) { }
 		@Override public void handleChatCommand(ServerboundChatCommandPacket packet) { }
-		@Override public void handleChatAck(ServerboundChatAckPacket packet) { }
-		@Override public void addPendingMessage(PlayerChatMessage message) { }
+		//@Override public void handleChatAck(ServerboundChatAckPacket packet) { } //Just going to hide this and see what happens "Cannot resolve symbol 'ServerboundChatAckPacket'"
+		//@Override public void addPendingMessage(PlayerChatMessage message) { } //Just going to hide this and see what happens "error: method does not override or implement a method from a supertype"
 	}
 }
