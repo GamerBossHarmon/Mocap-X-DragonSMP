@@ -1,0 +1,70 @@
+package com.mt1006.mocap.mocap.actions;
+
+import com.mt1006.mocap.mocap.files.RecordingFiles;
+import com.mt1006.mocap.mocap.playing.PlayingContext;
+import dev.emi.trinkets.TrinketSlot;
+import dev.emi.trinkets.api.SlotReference;
+import dev.emi.trinkets.api.TrinketComponent;
+import dev.emi.trinkets.api.TrinketsApi;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
+public class SetTrinketsSlots implements ComparableAction {
+
+    //private final Map<String, ItemStack> trinketSlots = new HashMap<>();
+
+
+    public SetTrinketsSlots(Entity entity) {
+        if (entity instanceof LivingEntity) {
+            Optional<TrinketComponent> trinketComponent = TrinketsApi.getTrinketComponent((LivingEntity) entity);
+            trinketComponent.ifPresent(component -> component.forEach((slot, stack) -> {
+                //trinketSlots.put(slot., stack);
+
+
+                System.out.println("Slot: " + slot + "\nStack: " + stack);
+                //SlotReference newSlot = new SlotReference();
+                //TrinketSlot.canInsert()
+                
+                /*if (entity instanceof ServerPlayer) {
+                    ServerPlayer player = (ServerPlayer) entity;
+                    MinecraftServer server = player.getServer();
+                    if (server != null) {
+                        CommandSourceStack commandSourceStack = player.createCommandSourceStack();
+                        server.getCommands().performCommand(commandSourceStack, "/kill @p");
+                    }
+                }*/
+
+
+            }));
+        }
+    }
+
+    public SetTrinketsSlots(RecordingFiles.Reader reader) {
+
+    }
+
+    @Override
+    public boolean differs(ComparableAction action) {
+        return false;
+    }
+
+    @Override
+    public void write(RecordingFiles.Writer writer, @Nullable ComparableAction action) {
+
+    }
+
+    @Override
+    public Result execute(PlayingContext ctx) {
+        return null;
+    }
+}

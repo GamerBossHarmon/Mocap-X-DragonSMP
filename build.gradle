@@ -15,6 +15,8 @@ repositories
 {
 	maven { url = 'https://maven.parchmentmc.org/' }
 	maven { url = 'https://jitpack.io'}
+	maven { url = "https://maven.terraformersmc.com/"}
+	maven { url = 'https://maven.ladysnake.org/releases'}
 }
 
 dependencies
@@ -32,6 +34,15 @@ dependencies
 	modApi("com.github.Virtuoel:Pehkui:${pehkui_version}", {
 		exclude group: "net.fabricmc.fabric-api"
 	})
+	modImplementation "dev.emi:trinkets:${trinkets_version}"
+
+	modImplementation "dev.onyxstudios.cardinal-components-api:cardinal-components-base:${project.cca_version}"
+	include "dev.onyxstudios.cardinal-components-api:cardinal-components-base:${project.cca_version}"
+
+	//implementation 'io.github.onyxstudios:Cardinal-Components-API:3.1.1'
+	//modImplementation "dev.onyxstudios.cardinal-components-api:cardinal-components-base:${cardinal_version}"
+	//modImplementation "dev.onyxstudios.cardinal-components-api:cardinal-components-base:3.1.1"
+
 }
 
 processResources

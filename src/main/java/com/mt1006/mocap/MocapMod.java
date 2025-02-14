@@ -27,6 +27,7 @@ public class MocapMod implements ModInitializer
 	public static final boolean isDedicatedServer = FabricLoader.getInstance().getEnvironmentType() == EnvType.SERVER;
 
 	public static final boolean IS_PEHKUI_LOADED = FabricLoader.getInstance().isModLoaded("pehkui");
+	public static final boolean IS_TRINKETS_LOADED = FabricLoader.getInstance().isModLoaded("trinkets");
 
 	@Override public void onInitialize()
 	{
@@ -48,6 +49,11 @@ public class MocapMod implements ModInitializer
 			System.out.println("Pehkui is installed!");
 		} else {
 			System.out.println("Pehkui is not installed.");
+		}
+		if (IS_TRINKETS_LOADED) {
+			System.out.println("Trinkets is installed!");
+		} else {
+			System.out.println("Trinkets is not installed.");
 		}
 	}
 

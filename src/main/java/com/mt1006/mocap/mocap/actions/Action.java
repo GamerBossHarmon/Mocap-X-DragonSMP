@@ -51,7 +51,9 @@ public interface Action
 		HURT(18, Hurt::new),
 		VEHICLE_DATA(19, VehicleData::new, VehicleData::new),
 		BREAK_BLOCK_PROGRESS(20, BreakBlockProgress::new),
-		SET_SCALE_DATA(21, SetScaleData::new, SetScaleData::new);
+		SET_SCALE_DATA(21, SetScaleData::new, SetScaleData::new),
+		//SET_TRINKETS_SLOTS(22, SetTrinketsSlots::new, SetTrinketsSlots::new);
+		SET_ICARUS_WINGS(22, SetIcarusWings::new, SetIcarusWings::new);
 
 		public final byte id;
 		public final Function<RecordingFiles.Reader, Action> fromReader;
