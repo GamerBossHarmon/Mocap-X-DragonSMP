@@ -62,7 +62,7 @@ public class SetIcarusWings implements ComparableAction {
 
     public SetIcarusWings(RecordingFiles.Reader reader) {
         //this.wings = deserialize(reader.readString());
-        System.out.println("SetIcarusWings-:\n" + Registry.ITEM.get(ResourceLocation.tryParse(reader.readString())));
+        //System.out.println("SetIcarusWings-:\n" + Registry.ITEM.get(ResourceLocation.tryParse(reader.readString())));
         this.wings = Registry.ITEM.get(ResourceLocation.tryParse(reader.readString()));
     }
 
@@ -74,6 +74,8 @@ public class SetIcarusWings implements ComparableAction {
     @Override
     public void write(RecordingFiles.Writer writer, @Nullable ComparableAction action) {
         if (action != null && !differs(action)) { return; }
+
+        writer.addByte(Type.SET_ICARUS_WINGS.id);
 
         ResourceLocation location = Registry.ITEM.getKey(wings);
         System.out.println("Write:\n" + location.toString());
