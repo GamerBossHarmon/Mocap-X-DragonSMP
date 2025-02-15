@@ -21,11 +21,20 @@ public class SetIcarusWings implements ComparableAction {
 
     private static final Gson gson = new Gson();
 
-    private final Item wings;
+    public static String serialize(ItemStack itemStack) {
+        return gson.toJson(itemStack);
+    }
+
+    public static ItemStack deserialize(String json) {
+        return gson.fromJson(json, ItemStack.class);
+    }
+
+    private final ItemStack wings;
 
     private ItemStack temp;
 
     public SetIcarusWings(Entity entity) {
+        ItemStack wingsItem = null;
         if (entity instanceof LivingEntity) {
             Optional<TrinketComponent> trinketComponent = TrinketsApi.getTrinketComponent((LivingEntity) entity);
             trinketComponent.ifPresent(component -> {
@@ -35,20 +44,35 @@ public class SetIcarusWings implements ComparableAction {
                     if ("chest".equals(slotReference.inventory().getSlotType().getGroup()) &&
                             "cape".equals(slotReference.inventory().getSlotType().getName())) {
                         temp = itemStack;
-                        //System.out.println("Chest Cape Slot: " + itemStack);
+                        System.out.println("Chest Cape Slot: " + itemStack);
                     }
                 });
             });
         }
         if (temp == null || temp.isEmpty()) {
-            //System.out.println("No Wings Found");
-            this.wings = null;
-        } else {
-            this.wings = temp.getItem();
+            System.out.println("No Wings Found");
         }
+        this.wings = temp;
+        //System.out.println(wings.getDescriptionId());
+        //System.out.println(wings.getItem());
+        //System.out.println(wings.getItemHolder());
+        //System.out.println(wings);
+        //ItemStack newitem = new ItemStack(wings.getItem());
+        //System.out.println(newitem);
 
+        /*CompoundTag inputTag = new CompoundTag();
+        wings.save(inputTag);
+        System.out.println(inputTag);
 
-        /*ResourceLocation location = Registry.ITEM.getKey(wings.getItem());
+        CompoundTag outputTag = new CompoundTag();
+        outputTag.*/
+
+        System.out.println(wings.getItem().getDescriptionId());
+        System.out.println(wings.getDescriptionId());
+        System.out.println(wings.getItem());
+        System.out.println(wings.getItem().toString());
+
+        ResourceLocation location = Registry.ITEM.getKey(wings.getItem());
 
         System.out.println(location);
 
@@ -57,13 +81,11 @@ public class SetIcarusWings implements ComparableAction {
         System.out.println(itemString);
         System.out.println(locationString);
         Item item = Registry.ITEM.get(ResourceLocation.tryParse(locationString));
-        System.out.println(item);*/
+        System.out.println(item);
     }
 
     public SetIcarusWings(RecordingFiles.Reader reader) {
-        //this.wings = deserialize(reader.readString());
-        System.out.println("SetIcarusWings-:\n" + Registry.ITEM.get(ResourceLocation.tryParse(reader.readString())));
-        this.wings = Registry.ITEM.get(ResourceLocation.tryParse(reader.readString()));
+        this.wings = deserialize(reader.readString());
     }
 
     @Override
@@ -75,9 +97,8 @@ public class SetIcarusWings implements ComparableAction {
     public void write(RecordingFiles.Writer writer, @Nullable ComparableAction action) {
         if (action != null && !differs(action)) { return; }
 
-        ResourceLocation location = Registry.ITEM.getKey(wings);
-        System.out.println("Write:\n" + location.toString());
-        writer.addString(location.toString());
+        String itemStackJson = serialize(wings);
+        writer.addString(itemStackJson);
     }
 
     @Override
@@ -86,9 +107,7 @@ public class SetIcarusWings implements ComparableAction {
             return Result.IGNORED;
         }
 
-        System.out.println("Execute: " + wings);
-
-        /*LivingEntity entity = (LivingEntity) ctx.entity;
+        LivingEntity entity = (LivingEntity) ctx.entity;
         Optional<TrinketComponent> trinketComponent = TrinketsApi.getTrinketComponent(entity);
         if (trinketComponent.isPresent()) {
             TrinketComponent component = trinketComponent.get();
@@ -100,7 +119,7 @@ public class SetIcarusWings implements ComparableAction {
                     System.out.println("Set Chest Cape Slot: " + wings);
                 }
             });
-        }*/
+        }
 
         return Result.OK;
     }
