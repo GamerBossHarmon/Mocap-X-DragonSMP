@@ -2,7 +2,13 @@
 **Motion Capture** is a Minecraft mod that allows you to record and replay player movements. It is created mainly for people who want to create complex scenes in Minecraft without using real players.
 
 ## Fork
-This Fork downgrades the mod back down to 1.19 and adds support for Pehkui and Trinkes.
+This Fork downgrades the mod back down to 1.19 and adds support for [Pehkui](https://modrinth.com/mod/pehkui), [Trinkes](https://modrinth.com/mod/trinkets) for [Icarus](https://modrinth.com/mod/icarus/versions), and [Sit](https://modrinth.com/mod/bl4cks-sit).
+
+It was made to assess in the recording of large episodes that require a lot of people on at the same time.
+<br>
+YouTube page: https://www.youtube.com/@TheDragonSMPOfficial
+
+---
 
 It records:
 - movements

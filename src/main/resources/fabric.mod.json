@@ -8,9 +8,9 @@
 	"authors": ["mt1006", "HarmonProto"],
 	"contact":
 	{
-		"homepage": "https://modrinth.com/mod/motion-capture",
-		"sources": "https://github.com/mt1006/mc-mocap-mod",
-		"issues": "https://github.com/mt1006/mc-mocap-mod/issues"
+		"homepage": "https://github.com/GamerBossHarmon/Mocap-X-DragonSMP",
+		"sources": "https://github.com/GamerBossHarmon/Mocap-X-DragonSMP",
+		"issues": "https://github.com/GamerBossHarmon/Mocap-X-DragonSMP/issues"
 	},
 
 	"license": "LGPL-3.0-only",
