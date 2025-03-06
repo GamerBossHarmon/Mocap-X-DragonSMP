@@ -29,10 +29,12 @@
 		"fabricloader": ">=0.14.14",
 		"fabric": "*",
 		"java": ">=17"
+		"java": ">=17",
+		"pehkui": ">=3.6.0",
+		"trinkets": ">=3.4.1",
+		"sit": ">=1.19-20"
 	},
 
 	"suggests": {
-		"pehkui": ">=3.6.0",
-		"trinkets": ">=3.4.1"
 	}
 }

@@ -28,6 +28,7 @@ public class MocapMod implements ModInitializer
 
 	public static final boolean IS_PEHKUI_LOADED = FabricLoader.getInstance().isModLoaded("pehkui");
 	public static final boolean IS_TRINKETS_LOADED = FabricLoader.getInstance().isModLoaded("trinkets");
+	public static final boolean IS_SIT_LOADED = FabricLoader.getInstance().isModLoaded("sit");
 
 	@Override public void onInitialize()
 	{
@@ -54,6 +55,11 @@ public class MocapMod implements ModInitializer
 			System.out.println("Trinkets is installed!");
 		} else {
 			System.out.println("Trinkets is not installed.");
+		}
+		if (IS_SIT_LOADED) {
+			System.out.println("Sit is installed!");
+		} else {
+			System.out.println("Sit is not installed.");
 		}
 	}
 

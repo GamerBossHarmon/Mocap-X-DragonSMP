@@ -53,7 +53,8 @@ public interface Action
 		BREAK_BLOCK_PROGRESS(20, BreakBlockProgress::new),
 		SET_SCALE_DATA(21, SetScaleData::new, SetScaleData::new),
 		//SET_TRINKETS_SLOTS(22, SetTrinketsSlots::new, SetTrinketsSlots::new);
-		SET_ICARUS_WINGS(22, SetIcarusWings::new, SetIcarusWings::new);
+		SET_ICARUS_WINGS(22, SetIcarusWings::new, SetIcarusWings::new),
+		SIT(23, Sit::new, Sit::new);
 
 		public final byte id;
 		public final Function<RecordingFiles.Reader, Action> fromReader;
