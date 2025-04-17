@@ -98,7 +98,7 @@ public class Sit implements ComparableAction {
                 }
             }
         } else {
-            if (entity.getVehicle() != null) {//TODO: The sitEntity is still there got to remove it
+            if (entity.getVehicle() != null) {//The sitEntity is still there got to remove it//NVM it is removed but does not get remove if we stop early
                 SitEntity sitEntity = SitUtil.getSitEntity(entity.level, entity.getVehicle().blockPosition());
                 if (sitEntity != null) {
                     SitUtil.removeSitEntity(entity.level, sitEntity.blockPosition());
