@@ -46,18 +46,6 @@ public class SetIcarusWings implements ComparableAction {
             //SlotType slotNumber = TrinketsApi.getTrinketComponent((ServerPlayer) entity).get().getInventory().get("chest").get("cape").getSlotType();
             //System.out.println("Slot Number: " + slotNumber);
         }
-
-
-        /*ResourceLocation location = Registry.ITEM.getKey(wings.getItem());
-
-        System.out.println(location);
-
-        String itemString = wings.getItem().toString();
-        String locationString = location.toString();
-        System.out.println(itemString);
-        System.out.println(locationString);
-        Item item = Registry.ITEM.get(ResourceLocation.tryParse(locationString));
-        System.out.println(item);*/
     }
 
     public SetIcarusWings(RecordingFiles.Reader reader) {
@@ -81,6 +69,9 @@ public class SetIcarusWings implements ComparableAction {
         writer.addString(location.toString());
     }
 
+    //Currently The player shows as they have the NBT data for the item, but they do not render with the wings on.
+    //In here is shows that the entity has the old "TrinketComponent" wings, and they also get replace with the new wings.
+    //But placing a debugger in Icarus "WingsFeatureRenderer", The "TrinketComponent" does not show that the entity has the wings.
     @Override
     public Result execute(PlayingContext ctx) {
         if (!(ctx.entity instanceof ServerPlayer entity)) {
@@ -88,34 +79,79 @@ public class SetIcarusWings implements ComparableAction {
         }
 
         System.out.println("Execute: " + wings);
-
+        ItemStack wing = new ItemStack(wings);
         //System.out.println("SetIcarusWings: " + Trinkets);
 
-        //TrinketComponent comp = TrinketsApi.getTrinketComponent((ServerPlayer) entity).get();
-        //SlotGroup slotGroup = comp.getGroups().getOrDefault(group, null);
+        TrinketComponent comp = TrinketsApi.getTrinketComponent((ServerPlayer) entity).get();
+        SlotGroup slotGroupChest = comp.getGroups().get("chest");
+        System.out.println("Slot Group: " + slotGroupChest);
+        SlotType slotTypeWings = slotGroupChest.getSlots().get("cape");
+        System.out.println("Slot Group: " + slotTypeWings);
 
-        //boolean canPlace = comp.getInventory().get("chest").get("cape").canPlaceItem(0, new ItemStack(wings));
+        Optional<TrinketComponent> componentOpt  = TrinketsApi.getTrinketComponent(entity);
 
-        //comp.getInventory().get("chest").get("cape").setStack(0, stack.createStack(amount, true));
-        //comp.getInventory().get("chest").get("cape").setItem(1, new ItemStack(wings));//46 is the slot number for a real player
+        componentOpt.ifPresent(component -> {
+            // Access the full trinket inventory map
+            var inventoryMap = component.getInventory();
 
-        //TrinketsApi.getTrinketComponent((ServerPlayer) entity).get().getInventory().get("chest").get("cape").setItem(0, new ItemStack(wings));
-        //System.out.println("Slot Number: " + TrinketsApi.getTrinketComponent(entity).get().getInventory().get("chest").get("cape").getSlotType(););
-        //entity.getInventory().setItem(0, new ItemStack(wings));
+            // Look for the chest/cape slot
+            if (inventoryMap.containsKey("chest")) {
+                var chestSlots = inventoryMap.get("chest");
+                if (chestSlots.containsKey("cape")) {
+                    var inventory = chestSlots.get("cape");
 
-        //entity.getInventory().setItem(46, new ItemStack(wings));
+                    //SlotReference slotRef = inventory
+                    System.out.println("Inventory: " + inventory);
+                    inventory.setItem(0, wing);
+                    //↓↓↓ Don't know what this does, just found it looking in the "TrinketInventory" class
+                    inventory.markUpdate();//Does this do anything IDK
+                    inventory.update();//Does this do anything IDK
 
-        /*Optional<TrinketComponent> trinketComponent = TrinketsApi.getTrinketComponent(entity);
-        if (trinketComponent.isPresent()) {
-            TrinketComponent component = trinketComponent.get();
-            component.getAllEquipped().forEach(tuple -> {
-                SlotReference slotReference = tuple.getA();
-                if ("chest".equals(slotReference.inventory().getSlotType().getGroup()) &&
-                        "cape".equals(slotReference.inventory().getSlotType().getName())) {
-                    //slotReference.inventory().setStack(slotReference.index(), wings);
-                    System.out.println("Set Chest Cape Slot: " + wings);
+                    System.out.println("Equipped wing in chest/cape!");
+                } else {
+                    System.out.println("No cape slot in chest group.");
+                }
+            } else {
+                System.out.println("No chest slot group.");
+            }
+        });
+
+        //found in https://github.com/emilyploszaj/trinkets/blob/de1634115ed84cb20db2d5683a4970ecdd8bfdde/src/main/java/dev/emi/trinkets/mixin/PlayerInventoryMixin.java
+        //It ticks, but still does not render
+        /*TrinketsApi.getTrinketComponent(entity).ifPresent(trinkets ->
+                trinkets.forEach((slotReference, itemStack) ->
+                        TrinketsApi.getTrinket(itemStack.getItem()).tick(itemStack, slotReference, entity)));*/
+
+        //EntitySlotLoader.CLIENT.sync(entity);//found in https://github.com/emilyploszaj/trinkets/blob/de1634115ed84cb20db2d5683a4970ecdd8bfdde/src/main/java/dev/emi/trinkets/mixin/PlayerManagerMixin.java
+        //EntitySlotLoader.SERVER.sync(entity);//^ does not work
+
+        //https://github.com/emilyploszaj/trinkets/blob/de1634115ed84cb20db2d5683a4970ecdd8bfdde/src/main/java/dev/emi/trinkets/mixin/LivingEntityMixin.java
+        //Nope not this
+        /*TrinketsApi.getTrinketComponent(entity).ifPresent(trinkets -> {
+            trinkets.forEach((ref, stack) -> {
+                //TrinketsApi.getTrinket(oldStack.getItem()).onUnequip(oldStack, ref, entity);
+                TrinketsApi.getTrinket(stack.getItem()).onEquip(stack, ref, entity);
+            });
+        });*/
+
+        //https://github.com/emilyploszaj/trinkets/blob/de1634115ed84cb20db2d5683a4970ecdd8bfdde/src/main/java/dev/emi/trinkets/mixin/LivingEntityMixin.java
+        //Dont think will work so stop on it
+        /*FriendlyByteBuf buf = PacketByteBufs.create();
+        buf.writeInt(entity.getId());
+        CompoundTag tag = new CompoundTag();
+        //tag.put(trinketInventory.getSlotType().getGroup() + "/" + trinketInventory.getSlotType().getName(), trinketInventory.getSyncTag());
+        TrinketsApi.getTrinketComponent(entity).ifPresent(trinkets -> {
+            trinkets.forEach((ref, stack) -> {
+                TrinketInventory inventory = ref.inventory();
+                for (TrinketInventory trinketInventory : inventoriesToSend) {
+                    tag.put(trinketInventory.getSlotType().getGroup() + "/" + trinketInventory.getSlotType().getName(), trinketInventory.getSyncTag());
                 }
             });
+        });
+        tag.put("chest/cape", trinketInventory.getSyncTag());
+        buf.writeNbt(tag);
+        for(ServerPlayer player : PlayerLookup.tracking(entity)) {
+            ServerPlayNetworking.send(player, TrinketsNetwork.SYNC_INVENTORY, buf);
         }*/
 
         return Result.OK;
