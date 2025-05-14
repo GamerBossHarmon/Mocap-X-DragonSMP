@@ -33,14 +33,14 @@ public class Sit implements ComparableAction {
             this.sitPos = null;
         }
         if (entity instanceof ServerPlayer) {
-            System.out.println("Sit entity: " + entity);
+            /*System.out.println("Sit entity: " + entity);
             System.out.println("Sit: " + isSittingTemp);
             System.out.println("Sit player riding entity: " + entity.getVehicle());
             if (entity.getVehicle() != null) {
                 System.out.println("Sit vehicle: " + getSitEntity(entity.level, entity.getVehicle().blockPosition()));
             } else {
                 System.out.println("Sit vehicle: " + null);
-            }
+            }*/
         }
         this.isSitting = isSittingTemp;
     }
@@ -83,8 +83,8 @@ public class Sit implements ComparableAction {
     public Result execute(PlayingContext ctx) {
         if (!(ctx.entity instanceof ServerPlayer entity)) { return Result.IGNORED; }
 
-        System.out.println("Sit execute: " + isSitting);
-        System.out.println("Sit Pos: " + sitPos);
+        //System.out.println("Sit execute: " + isSitting);
+        //System.out.println("Sit Pos: " + sitPos);
 
         if (isSitting && sitPos != null) {
             if (getSitEntity(entity.level, sitPos) == null) {
