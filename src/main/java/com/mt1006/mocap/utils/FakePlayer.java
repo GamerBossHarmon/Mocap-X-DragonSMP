@@ -28,6 +28,7 @@ public class FakePlayer extends ServerPlayer
 		super(level.getServer(), level, name, null);
 		this.connection = new FakePlayerNetHandler(level.getServer(), this);
 		setInvulnerable(true);
+		this.addTag("MocapFakePlayerS");
 	}
 
 	@Override public Entity changeDimension(@NotNull ServerLevel p_20118_) { return null; }
@@ -35,7 +36,7 @@ public class FakePlayer extends ServerPlayer
 	@Override public void displayClientMessage(@NotNull Component chatComponent, boolean actionBar) { }
 	@Override public void awardStat(@NotNull Stat stat, int amount) { }
 	@Override public void die(@NotNull DamageSource source) { }
-	//@Override public void tick() { } Don't think hiding this would work but no point in not trying
+	@Override public void tick() { }
 	@Override public void updateOptions(@NotNull ServerboundClientInformationPacket packet) { }
 
 	private static class FakePlayerNetHandler extends ServerGamePacketListenerImpl

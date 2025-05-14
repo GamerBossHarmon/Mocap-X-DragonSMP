@@ -4,9 +4,14 @@ import com.mt1006.mocap.mocap.files.RecordingFiles;
 import com.mt1006.mocap.mocap.playing.PlayingContext;
 import dev.emi.trinkets.api.*;
 import net.minecraft.core.Registry;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.network.protocol.game.ClientboundSetEntityDataPacket;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
@@ -77,18 +82,40 @@ public class SetIcarusWings implements ComparableAction {
         if (!(ctx.entity instanceof ServerPlayer entity)) {
             return Result.IGNORED;
         }
+        //System.out.println("TAGS: " + entity.getTags());
 
-        System.out.println("Execute: " + wings);
+        //Debugging test code, for NBT stuff
+        /*CompoundTag nbtData = new CompoundTag();
+        entity.saveWithoutId(nbtData);
+        System.out.println("Entity NBT (without ID): " + nbtData);
+        System.out.println("Wing NBT: " + nbtData.getCompound("cardinal_components").getCompound("trinkets:trinkets").getCompound("chest").getCompound("cape").getList("Items", 10).getCompound(0).getString("id"));
+        ItemStack test = ItemStack.of(nbtData.getCompound("cardinal_components").getCompound("trinkets:trinkets").getCompound("chest").getCompound("cape").getList("Items", 10).getCompound(0));
+
+        CompoundTag components = nbtData.getCompound("cardinal_components");
+        CompoundTag trinkets = components.getCompound("trinkets:trinkets");
+        CompoundTag chest = trinkets.getCompound("chest");
+        CompoundTag cape = chest.getCompound("cape");
+        ListTag items = cape.getList("Items", 10); // 10 is the tag type for CompoundTag
+
+        if (!items.isEmpty()) {
+            CompoundTag item = items.getCompound(0);
+            String itemId = item.getString("id");
+            System.out.println("Found item ID: " + itemId);
+        }*/
+
+        //System.out.println("Execute: " + wings);
         ItemStack wing = new ItemStack(wings);
         //System.out.println("SetIcarusWings: " + Trinkets);
 
-        TrinketComponent comp = TrinketsApi.getTrinketComponent((ServerPlayer) entity).get();
+        //More debugging test code
+        /*TrinketComponent comp = TrinketsApi.getTrinketComponent((ServerPlayer) entity).get();
         SlotGroup slotGroupChest = comp.getGroups().get("chest");
         System.out.println("Slot Group: " + slotGroupChest);
         SlotType slotTypeWings = slotGroupChest.getSlots().get("cape");
-        System.out.println("Slot Group: " + slotTypeWings);
+        System.out.println("Slot Group: " + slotTypeWings);*/
 
-        Optional<TrinketComponent> componentOpt  = TrinketsApi.getTrinketComponent(entity);
+        //Optional<TrinketComponent> componentOpt  = TrinketsApi.getTrinketComponent(entity);
+        Optional<TrinketComponent> componentOpt  = TrinketsApi.getTrinketComponent((LivingEntity) ctx.entity);
 
         componentOpt.ifPresent(component -> {
             // Access the full trinket inventory map
@@ -101,20 +128,40 @@ public class SetIcarusWings implements ComparableAction {
                     var inventory = chestSlots.get("cape");
 
                     //SlotReference slotRef = inventory
-                    System.out.println("Inventory: " + inventory);
+                    //System.out.println("Inventory: " + inventory);
                     inventory.setItem(0, wing);
                     //↓↓↓ Don't know what this does, just found it looking in the "TrinketInventory" class
                     inventory.markUpdate();//Does this do anything IDK
                     inventory.update();//Does this do anything IDK
 
-                    System.out.println("Equipped wing in chest/cape!");
+                    //System.out.println("Equipped wing in chest/cape!");
                 } else {
-                    System.out.println("No cape slot in chest group.");
+                    //System.out.println("No cape slot in chest group.");
                 }
             } else {
-                System.out.println("No chest slot group.");
+                //System.out.println("No chest slot group.");
             }
         });
+
+        /*TrinketComponent compnumber2 = TrinketsApi.getTrinketComponent(entity).get();//Nope NBT is still not sending
+        compnumber2.getInventory().get("chest").get("cape").markUpdate();
+        //comp.sync(); // This is the key method to sync Trinkets data
+
+        // Force inventory update
+        entity.containerMenu.broadcastChanges();*/
+
+        /*SynchedEntityData data = entity.getEntityData(); //Nope :(
+        //data.markDirty();
+
+        ClientboundSetEntityDataPacket packet = new ClientboundSetEntityDataPacket(entity.getId(), entity.getEntityData(), true);
+
+        entity.connection.send(packet);
+
+        for (ServerPlayer trackingPlayer : entity.getServer().getPlayerList().getPlayers()) {
+            if (trackingPlayer != entity && trackingPlayer.level == entity.level) {
+                trackingPlayer.connection.send(packet);
+            }
+        }*/
 
         //found in https://github.com/emilyploszaj/trinkets/blob/de1634115ed84cb20db2d5683a4970ecdd8bfdde/src/main/java/dev/emi/trinkets/mixin/PlayerInventoryMixin.java
         //It ticks, but still does not render
