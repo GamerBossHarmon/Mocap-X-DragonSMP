@@ -40,7 +40,7 @@ public class WingsFeatureRendererMixin {
         //2. Check if they have the wings components if do ignore/return,
         //3. Check if they have NBT data for the wings, if do give them are tag.
         if (entity instanceof Player player) {
-            if (entity.getTags().contains("MocapFakePlayerC") && !entity.getTags().contains("GiveWings") && entity.getTags().contains("RealPlayer")) {
+            if (entity.getTags().contains("MocapFakePlayerC") && !entity.getTags().contains("GivenWings")) {
                 //System.out.println("has are tag");
                 //CompoundTag nbtData = new CompoundTag();
                 //entity.saveWithoutId(nbtData);
@@ -68,7 +68,7 @@ public class WingsFeatureRendererMixin {
                 };
 
                 if (wings != null) {
-                    entity.addTag("GiveWings");
+                    entity.addTag("GivenWings");
                     Optional<TrinketComponent> componentOpt  = TrinketsApi.getTrinketComponent(entity);
                     componentOpt.ifPresent(component -> {
                         // Access the full trinket inventory map
