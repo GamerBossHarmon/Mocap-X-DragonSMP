@@ -40,7 +40,7 @@ public class WingsFeatureRendererMixin {
         //2. Check if they have the wings components if do ignore/return,
         //3. Check if they have NBT data for the wings, if do give them are tag.
         if (entity instanceof Player player) {
-            if (entity.getTags().contains("MocapFakePlayerC") && !entity.getTags().contains("GiveWings")) {
+            if (entity.getTags().contains("MocapFakePlayerC") && !entity.getTags().contains("GiveWings") && entity.getTags().contains("RealPlayer")) {
                 //System.out.println("has are tag");
                 //CompoundTag nbtData = new CompoundTag();
                 //entity.saveWithoutId(nbtData);
@@ -49,19 +49,21 @@ public class WingsFeatureRendererMixin {
                 String entityName = entity.getName().getString();
 
                 ItemStack wings = switch (entityName) {
-                    case "Dragongirl1349" -> new ItemStack(ModItems.BLACK_DRAGON_WINGS);
-                    case "Iris_034" -> new ItemStack(ModItems.LIGHT_BLUE_MECHANICAL_LEATHER_WINGS);
-                    case "Feathyriarch" -> new ItemStack(ModItems.BLACK_FEATHERED_WINGS);
-                    case "Royxl_Blue" -> new ItemStack(ModItems.BLUE_DRAGON_WINGS);
-                    case "ProtogenAzul" -> new ItemStack(ModItems.LIGHT_GREY_FEATHERED_WINGS);
-                    case "Sc00tch" -> new ItemStack(ModItems.WHITE_FEATHERED_WINGS);
-                    case "HarmonProto" -> new ItemStack(ModItems.RED_MECHANICAL_FEATHERED_WINGS);
-                    case "Swaggy_Banana12" -> new ItemStack(ModItems.YELLOW_FEATHERED_WINGS);
-                    case "OnyxOwO" -> new ItemStack(ModItems.BLUE_DRAGON_WINGS);
-                    case "Glitchi354" -> new ItemStack(ModItems.BLACK_LIGHT_WINGS);
-                    case "TheRubyNinja1" -> new ItemStack(ModItems.RED_MECHANICAL_FEATHERED_WINGS);
-                    case "ShadowKent" -> new ItemStack(ModItems.MAGENTA_MECHANICAL_LEATHER_WINGS);
-                    case "Chrissy283" -> new ItemStack(ModItems.BLACK_MECHANICAL_FEATHERED_WINGS);//Need to check
+                    case "FP-Dragongirl1349" -> new ItemStack(ModItems.BLACK_DRAGON_WINGS);
+                    case "FP-Iris_034" -> new ItemStack(ModItems.LIGHT_BLUE_MECHANICAL_LEATHER_WINGS);
+                    case "FP-_DuskShadow_" -> new ItemStack(ModItems.GREY_FEATHERED_WINGS);
+                    case "FP-Feathyriarch" -> new ItemStack(ModItems.BLACK_FEATHERED_WINGS);
+                    case "FP-Royxl_Blue" -> new ItemStack(ModItems.BLUE_DRAGON_WINGS);
+                    case "FP-ProtogenAzul" -> new ItemStack(ModItems.LIGHT_GREY_FEATHERED_WINGS);
+                    case "FP-Sc00tch" -> new ItemStack(ModItems.WHITE_FEATHERED_WINGS);
+                    case "FP-HarmonProto" -> new ItemStack(ModItems.RED_MECHANICAL_FEATHERED_WINGS);
+                    case "FP-Swaggy_Banana12" -> new ItemStack(ModItems.YELLOW_FEATHERED_WINGS);
+                    case "FP-OnyxOwO" -> new ItemStack(ModItems.BLUE_DRAGON_WINGS);
+                    case "FP-Glitchi354" -> new ItemStack(ModItems.BLACK_LIGHT_WINGS);
+                    case "FP-TheRubyNinja1" -> new ItemStack(ModItems.RED_MECHANICAL_FEATHERED_WINGS);
+                    case "FP-ShadowKent" -> new ItemStack(ModItems.MAGENTA_MECHANICAL_LEATHER_WINGS);
+                    case "FP-Chrissy283" -> new ItemStack(ModItems.BLACK_MECHANICAL_FEATHERED_WINGS);//Need to check
+                    case "FP-Mobpenguin" -> new ItemStack(ModItems.BLACK_FEATHERED_WINGS);
                     default -> null;
                 };
 

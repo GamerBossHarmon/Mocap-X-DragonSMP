@@ -60,7 +60,8 @@ public class SetIcarusWings implements ComparableAction {
 
     @Override
     public boolean differs(ComparableAction action) {
-        return wings != ((SetIcarusWings) action).wings;
+        return false;
+        //return wings != ((SetIcarusWings) action).wings;
     }
 
     @Override
