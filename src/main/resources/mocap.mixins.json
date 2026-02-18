@@ -26,6 +26,7 @@
   ],
   "client": [
     "AbstractClientPlayerMixin",
+    "ArmorRenderMixin",
     "CommandSuggestionsMixin",
     "WingsFeatureRendererMixin",
     "fabric.MinecraftMixin",

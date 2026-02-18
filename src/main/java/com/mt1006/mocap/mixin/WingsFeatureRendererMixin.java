@@ -10,9 +10,9 @@ import dev.emi.trinkets.api.TrinketsApi;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.monster.warden.WardenSpawnTracker;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.ItemLike;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -64,6 +64,7 @@ public class WingsFeatureRendererMixin {
                     case "FShadowKent" -> new ItemStack(ModItems.MAGENTA_MECHANICAL_LEATHER_WINGS);
                     case "FChrissy283" -> new ItemStack(ModItems.BLACK_MECHANICAL_FEATHERED_WINGS);//Need to check
                     case "FMobpenguin" -> new ItemStack(ModItems.BLACK_FEATHERED_WINGS);
+                    // case "Royxl_Blue" -> new ItemStack((ItemLike) null); // If I need to take someone wings off
                     default -> null;
                 };
 
